@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - APNA SWASTHYA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff7200, #ff9500);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #ff7200;
+            font-size: 2.5rem;
+        }
+
+        .header p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .upload-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #ff7200;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-label:hover {
+            background: #e65c00;
+        }
+
+        .uploaded-files {
+            list-style: none;
+            margin-top: 20px;
+            padding: 0;
+        }
+
+        .uploaded-files li {
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .uploaded-files li a {
+            color: #ff7200;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .uploaded-files li a:hover {
+            text-decoration: underline;
+        }
+
+        .uploaded-files li button {
+            background: #ff7200;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .uploaded-files li button:hover {
+            background: #e65c00;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .logout-btn {
+            padding: 12px 30px;
+            background: #ff7200;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-btn:hover {
+            background: #e65c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Your Profile</h1>
+            <p>Manage and access your medical records anytime.</p>
+        </div>
+
+        <div class="upload-section">
+            <label for="file-upload" class="upload-label">Upload Medical File</label>
+            <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png">
+            <ul class="uploaded-files" id="file-list">
+                <!-- Uploaded files will be displayed here -->
+            </ul>
+        </div>
+
+        <div class="footer">
+            <button class="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        const fileUpload = document.getElementById('file-upload');
+        const fileList = document.getElementById('file-list');
+
+        fileUpload.addEventListener('change', (event) => {
+            const files = event.target.files;
+
+            Array.from(files).forEach((file) => {
+                const listItem = document.createElement('li');
+
+                const fileLink = document.createElement('a');
+                fileLink.textContent = file.name;
+                fileLink.href = URL.createObjectURL(file);
+                fileLink.target = '_blank';
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.addEventListener('click', () => {
+                    fileList.removeChild(listItem);
+                });
+
+                listItem.appendChild(fileLink);
+                listItem.appendChild(deleteBtn);
+                fileList.appendChild(listItem);
+            });
+
+            // Clear the input value after processing
+            fileUpload.value = '';
+        });
+    </script>
+</body>
+</html>

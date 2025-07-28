@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff7200;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="number"], select, input[type="datetime-local"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff7200;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff9c4e;
+        }
+
+
+        .confirmation {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+            border-radius: 4px;
+            display: none;
+        }
+   .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons a {
+            background-color: #ff7200;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .buttons a:hover {
+            background-color: #ff9c4e;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Appointment</h1>
+        <form id="appointmentForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="hospital">Select Hospital:</label>
+            <select id="hospital" name="hospital" required>
+                <option value="">Select Hospital</option>
+                <option value="SLG">SLG</option>
+
+            </select>
+
+            <label for="doctor">Select Doctor:</label>
+            <select id="doctor" name="doctor" required>
+                <option value="">Select Doctor</option>
+                <option value="DR.MADHURI">DR.MADHURI</option>
+                <option value="DR. RAHUL JAIN">R. RAHUL JAIN</option>
+                <option value="DR.KRISHNA">DR.KRISHNA</option>
+            </select>
+
+            <label for="DEPARTMENTS">Select Department:</label>
+            <select id="department" name="department" required>
+                <option value="">Select Department</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value=" Neurology"> Neurology</option>
+                <option value="Dental">Dental</option>
+            </select>
+
+
+
+            <label for="datetime">Select Date and Time:</label>
+            <input type="datetime-local" id="datetime" name="datetime" required>
+
+            <label for="issue">Describe Your Issue:</label>
+            <textarea id="issue" name="issue" rows="4" required></textarea>
+
+            <input type="submit" value="Book Appointment">
+        </form>
+<div class="buttons">
+            <a href="front.html">Book Another</a>
+            <a href="webpage.html">Back to Home</a>
+        </div>
+        <div id="confirmation" class="confirmation">
+            <p>Appointment booked successfully!</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle form submission and confirmation message
+        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // You can add further processing logic here (e.g., sending data to server, etc.)
+
+            // Display confirmation message
+            document.getElementById('confirmation').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

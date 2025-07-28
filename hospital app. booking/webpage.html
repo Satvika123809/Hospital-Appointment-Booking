@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>APNA SWASTHYA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #ff9a8b, #fcb69f);
+            color: #333;
+            overflow-x: hidden; 
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff7200;
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .menu ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .content {
+            text-align: center;
+            margin: 60px auto;
+            color: #fff;
+        }
+
+        .content h1 {
+            font-size: 40px;
+        }
+
+        .content span {
+            color: #ff7200;
+        }
+
+        .form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .btnn {
+            background-color: #ff7200;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btnn:hover {
+            background-color: #e06a00;
+        }
+
+        .icons {
+            margin-top: 20px;
+        }
+
+        .icons a {
+            margin: 0 10px;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        #faceModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #faceModalContent {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #faceModalContent video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        #closeModal {
+            font-size: 20px;
+            border: none;
+            background: transparent;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar .menu ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .form {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="logo">APNA SWASTHYA</div>
+            <div class="menu">
+                <ul>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="front.html">BOOKING</a></li>
+                    <li><a href="profile.html">MY PROFILE</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <h1>Nothing Above <br><span>& Below</span> <br>Health!</h1>
+            <p>APNA SWASTHYA, a platform that streamlines the process of scheduling appointments<br> and managing treatment plans for patients.</p>
+        </div>
+        <div class="form">
+            <h2>Login Here</h2>
+            <button class="btnn" onclick="openFaceRecognitionModal()">Login with Face Recognition</button>
+            <p class="link">Don't have an account? <a href="sign up.html">Sign up here</a></p>
+           
+        </div>
+    </div>
+
+    <!-- Face Recognition Modal -->
+    <div id="faceModal">
+        <div id="faceModalContent">
+            <button id="closeModal" onclick="closeFaceModal()">X</button>
+            <h2>Face Recognition Login</h2>
+            <p>Please position your face within the frame and make sure your lighting is adequate.</p>
+            <video id="video" autoplay></video>
+            <button onclick="startFaceRecognition()">Start Recognition</button>
+            <p id="error"></p>
+        </div>
+    </div>
+
+    <script>
+        let video = document.getElementById('video');
+        let error = document.getElementById('error');
+        let faceModal = document.getElementById('faceModal');
+
+        function openFaceRecognitionModal() {
+            faceModal.style.display = 'flex';
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    error.textContent = "Failed to access camera.";
+                });
+        }
+
+        function closeFaceModal() {
+            faceModal.style.display = 'none';
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+
+        async function startFaceRecognition() {
+            try {
+                let response = await detectFace(video); // Use your API endpoint here
+                if (response.success) {
+                    window.location.href = "profile.html"; // Redirect to profile page
+                } else {
+                    error.textContent = "Face not recognized. Try again.";
+                }
+            } catch (error) {
+                console.error("Error in face recognition:", error);
+                error.textContent = "An error occurred. Please try again.";
+            }
+        }
+
+        async function detectFace(videoElement) {
+            // Replace with your API call, e.g., using fetch or XMLHttpRequest
+            // Example using Face++ API
+            const API_KEY = 'your-faceplusplus-api-key';
+            const API_SECRET = 'your-faceplusplus-api-secret';
+            const imageData = await getVideoFrameBase64(videoElement);
+            const response = await fetch('https://api-us.faceplusplus.com/facepp/v3/detect', {
+                method: 'POST',
+                body: JSON.stringify({
+                    api_key: API_KEY,
+                    api_secret: API_SECRET,
+                    image_base64: imageData,
+                    return_landmark: 1,
+                    return_attributes: 'gender,age,emotion'
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return await response.json();
+        }
+
+        function getVideoFrameBase64(videoElement) {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg').split(',')[1];
+        }
+    </script>
+</body>
+</html>
